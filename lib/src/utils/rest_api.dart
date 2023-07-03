@@ -9,7 +9,7 @@ class RestApi {
   }
 
   static Future<dynamic> sendGetRequest(String path, [String parameter = ""]) async {
-    final response = await http.get("$_restUrl$path/$parameter");
+    final response = await http.get(Uri.parse('$_restUrl$path/$parameter'));
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
@@ -18,9 +18,9 @@ class RestApi {
     }
   }
 
-  static sendPostRequest(String path, String postKey, List<String> data, {String returnKey}) async {
+  static sendPostRequest(String path, String postKey, List<String?> data, {String? returnKey}) async {
     final response = await http.post(
-      "$_restUrl$path",
+      Uri.parse('$_restUrl$path'),
       headers: {"content-type": "application/json"},
       body: jsonEncode({postKey : data}),
     );
@@ -32,13 +32,13 @@ class RestApi {
     if (returnKey == null) {
       return jsonDecode(response.body);
     } else {
-      final responseData = jsonDecode(response.body) as List;
+      final responseData = jsonDecode(response.body) as List?;
 
       if (!(responseData is List) || !(responseData.first is Map)) {
         throw FormatException("return data (below) is not List of Maps: \n${response.body}");
       }
 
-      Map<String, dynamic> returnMap = <String, Map>{};
+      Map<String?, dynamic> returnMap = <String?, Map>{};
 
       for (int i = 0; i < responseData.length; i++) {
         final item = responseData[i] as Map;
