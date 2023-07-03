@@ -54,10 +54,10 @@ class Bip21 {
         if (options['amount'] < 0) throw ("Invalid amount: not positive");
       }
 
-      Map<String, dynamic> uriOptions = Map.from(options);
+      Map<String, dynamic>? uriOptions = Map.from(options);
       uriOptions.removeWhere((key, value) => value == null);
       uriOptions.forEach((key, value) {
-        uriOptions[key] = value.toString();
+        uriOptions![key] = value.toString();
       });
 
       if (uriOptions.isEmpty) uriOptions = null;

@@ -50,8 +50,8 @@ class Transaction {
     var offset = 0;
     ByteData bytes = buffer.buffer.asByteData();
     Uint8List readSlice(n) {
-      offset += n;
-      return buffer.sublist(offset - n as int, offset);
+      offset += n as int;
+      return buffer.sublist(offset - n, offset);
     }
 
     int readUInt32() {
@@ -234,7 +234,7 @@ class Transaction {
 
   _hashForWitnessV0(int inIndex, Uint8List prevOutScript, int amount, int hashType) {
     Uint8List? tBuffer;
-    int? tOffset;
+    int tOffset = 0;
 
     void writeSlice(Uint8List slice) {
       tBuffer!.setRange(tOffset!, slice.length + tOffset!, slice);
